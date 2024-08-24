@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'connect.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -11,48 +12,40 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: const Color(0xFF4755AB), // Warna latar belakang ungu
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(height: 250), // Spasi atas
-              RichText(
-                textAlign: TextAlign.center,
-                text: const TextSpan(
-                  style: TextStyle(
-                  fontSize: 40,
-                  color: Colors.white,
-                  ),
-                  children: <TextSpan>[
-                      TextSpan(text: 'Gama'),
-                      TextSpan(
-                        text: 'BMS',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-              ),
-              const Text(
-                'battery management\nsystem', // Menggunakan \n untuk ganti baris
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
+        body: Stack(
+          children: [
+            Image.asset(
+              'assets/bg_img.jpg', // Path to your SVG asset
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                   Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Connect()),
+                );
+                  // Aksi tombol
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(), // Membuat tombol menjadi bulat
+                  padding: EdgeInsets.all(20), // Mengatur padding tombol
+                  backgroundColor: Colors.white, // Warna background tombol
+                ),
+                child: Icon(
+                  Icons.arrow_forward, // Ikon panah
+                  color: Colors.white, // Warna ikon
+                  size: 24, // Ukuran ikon
                 ),
               ),
-              const Spacer(), // Mendorong teks versi ke bawah
-              const Text(
-                'BMS UGM v.1.0',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 20), // Spasi bawah
-            ],
-          ),
+            ),
+          ],
         ),
-      ),);
+      ),
+    );
   }
 }
