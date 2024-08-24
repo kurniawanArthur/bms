@@ -1,31 +1,42 @@
 import 'package:flutter/material.dart';
+import 'bluetooth_list.dart';
+import 'dashboard.dart';
 
-class Connect extends StatefulWidget {
-  const Connect({super.key});
-
-  @override
-  State<Connect> createState() => _ConnectState();
-}
-
-class _ConnectState extends State<Connect> {
+class Connect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.blueAccent,
-          title: const Text("Connect-page", style: TextStyle(color: Colors.white),),
-          leading:  IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 15,color: Colors.white,),
-            onPressed: () {}),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Connect Bluetooth'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('Bluetooth not connected'),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BluetoothList()),
+                );
+              },
+              child: Text('Select Bluetooth'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Assume Bluetooth is connected for demo purposes
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Dashboard()),
+                );
+              },
+              child: Text('Proceed to Dashboard'),
+            ),
+          ],
         ),
-        body: const Center(
-          child: Column(
-            children: <Widget>[
-              
-            ],
-          ),),
       ),
     );
   }
