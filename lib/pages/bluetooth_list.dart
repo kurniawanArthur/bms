@@ -4,6 +4,38 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dashboard.dart'; // Assuming this is your dashboard screen
 
+import 'package:permission_handler/permission_handler.dart';
+
+// Meminta izin lokasi dan memulai pemindaian
+void requestLocationPermissionAndScan() async {
+  var status = await Permission.location.status;
+  if (!status.isGranted) {
+    status = await Permission.location.request();
+  }
+
+  if (status.isGranted) {
+    print("Location permission granted.");
+    startScan();
+  } else {
+    print("Location permission not granted.");
+  }
+}
+
+void startScan() {
+  FlutterBlue flutterBlue = FlutterBlue.instance;
+  flutterBlue.startScan(timeout: Duration(seconds: 4)).then((_) {
+    // Pemindaian dimulai, sekarang kita mendengarkan hasilnya
+    flutterBlue.scanResults.listen((results) {
+      print("Scan results:");
+      for (ScanResult result in results) {
+        print(result);
+      }
+    });
+  }).catchError((error) {
+    print("Error starting scan: $error");
+  });
+}
+
 class BluetoothList extends StatefulWidget {
   @override
   _BluetoothListState createState() => _BluetoothListState();
@@ -18,22 +50,20 @@ class _BluetoothListState extends State<BluetoothList> {
   @override
   void initState() {
     super.initState();
-    startScan();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      requestLocationPermissionAndScan();
+    });
     loadConnectedDevices();
   }
 
   Future<void> loadConnectedDevices() async {
-    // Uncomment this section if you want to use SharedPreferences
-    /*
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? encodedDevices = prefs.getString(connectedDevicesKey);
     if (encodedDevices != null) {
       setState(() {
-        connectedDevices =
-            jsonDecode(encodedDevices).cast<Map<String, dynamic>>();
+        connectedDevices = jsonDecode(encodedDevices).cast<Map<String, dynamic>>();
       });
     }
-    */
 
     // Add dummy devices for testing
     setState(() {
@@ -49,18 +79,6 @@ class _BluetoothListState extends State<BluetoothList> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String encodedDevices = jsonEncode(connectedDevices);
     prefs.setString(connectedDevicesKey, encodedDevices);
-  }
-
-  void startScan() {
-    // Mulai scan perangkat Bluetooth
-    flutterBlue.startScan(timeout: Duration(seconds: 4));
-
-    // Dengar hasil scan
-    flutterBlue.scanResults.listen((results) {
-      setState(() {
-        devices = results;
-      });
-    });
   }
 
   @override
@@ -85,26 +103,21 @@ class _BluetoothListState extends State<BluetoothList> {
                       onTap: () async {
                         // Connect to a previously connected device
                         String deviceId = device['id'];
-                        ScanResult? scanResult =
-                            devices.cast<ScanResult?>().firstWhere(
-                                  (result) =>
-                                      result?.device.id.toString() == deviceId,
-                                  orElse: () => null,
-                                );
+                        ScanResult? scanResult = devices.cast<ScanResult?>().firstWhere(
+                              (result) => result?.device.id.toString() == deviceId,
+                              orElse: () => null,
+                            );
 
                         if (scanResult != null) {
                           await scanResult.device.connect();
                           saveConnectedDevices();
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => Dashboard()),
+                            MaterialPageRoute(builder: (context) => Dashboard()),
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content:
-                                    Text('Device not found in scan results')),
+                            SnackBar(content: Text('Device not found in scan results')),
                           );
                         }
                       },
@@ -147,8 +160,9 @@ class _BluetoothListState extends State<BluetoothList> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: startScan,
-              child: Text('Refresh List'),
+              onPressed: requestLocationPermissionAndScan,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+              child: Text('Refresh List', style: TextStyle(color: Colors.white)),
             ),
           ),
         ],
