@@ -27,14 +27,30 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_selectedIndex == 0
-            ? 'Dashboard'
-            : _selectedIndex == 1
-                ? 'Tuning'
-                : _selectedIndex == 2
-                    ? 'Statistics'
-                    : 'Menu'),
+       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            _selectedIndex == 0
+                ? Icons.dashboard
+                : _selectedIndex == 1
+                    ? Icons.tune
+                    : _selectedIndex == 2
+                        ? Icons.show_chart
+                        : Icons.menu,
+          ),
+          onPressed: () {},
+        ),
+        title: Text(
+          _selectedIndex == 0
+              ? 'Dashboard'
+              : _selectedIndex == 1
+                  ? 'Tuning'
+                  : _selectedIndex == 2
+                      ? 'Statistics'
+                      : 'Menu',
+        ),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
