@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'connect.dart';
 import "package:bms_jayajayajaya/utility/colors.dart";
+import 'package:google_fonts/google_fonts.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -33,30 +34,35 @@ class _SplashState extends State<Splash> {
                   children: [
                     RichText(
                       textAlign: TextAlign.center,
-                      text: const TextSpan(
+                      text: TextSpan(
                         children: <TextSpan>[
                           TextSpan(
-                              text: 'Gama',
-                              style: TextStyle(
-                                fontSize: 40,
-                                color: Colors.white,
-                              )),
+                            text: 'Gama',
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 50,
+                              color: Colors.white,
+                            ),
+                          ),
                           TextSpan(
                             text: 'VOLT',
-                            style: TextStyle(
-                                fontSize: 40,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 50,
+                              color: Colors.white,
+                            ),
                           ),
                           TextSpan(
                             text: "\nBMS Control Panel",
-                            style: TextStyle(fontSize: 40,color: AppColors.primary)
-                            )
+                            style: TextStyle(
+                                fontFamily: "Inter",
+                                fontSize: 30, color: AppColors.primary),
+                          ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 50,
                     ),
                     ElevatedButton(
                       onPressed: () {

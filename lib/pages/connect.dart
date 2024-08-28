@@ -10,8 +10,8 @@ class Connect extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.bluetooth_disabled_rounded, color: Colors.black54,size: 50,),
-            SizedBox(height: 10,),
+            Icon(Icons.bluetooth_disabled_sharp, color: Colors.black54,size: 100,),
+            SizedBox(height: 30,),
             RichText(
                       textAlign: TextAlign.center,
                       text: const TextSpan(
@@ -19,18 +19,19 @@ class Connect extends StatelessWidget {
                           TextSpan(
                             text: 'Welcome, Buddy!',
                             style: TextStyle(
-                                fontSize: 40,
+                                fontFamily: "Inter",
+                                fontSize: 30,
                                 color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.w500),
                           ),
                           TextSpan(
                             text: "\nThe battery is not detected,\nplease turn on your bluetooth",
-                            style: TextStyle(fontSize: 20,color: Colors.black54)
+                            style: TextStyle(fontSize: 18,color: Colors.black54, fontFamily: "Inter",)
                             )
                         ],
                       ),
                     ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

@@ -1,7 +1,9 @@
+import 'package:bms_jayajayajaya/utility/colors.dart';
 import 'package:flutter/material.dart';
 import 'tuning.dart';
 import 'statistics.dart';
 import 'menu.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -27,7 +29,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
@@ -52,6 +54,7 @@ class _DashboardState extends State<Dashboard> {
                       : 'Menu',
         ),
       ),
+      backgroundColor:Color(0xFFF1F3F7),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -75,7 +78,7 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Color.fromARGB(255, 23, 60, 113),
         onTap: _onItemTapped,
       ),
     );
@@ -91,17 +94,55 @@ class DashboardPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Card(
-            child: ListTile(
-              leading: Icon(Icons.battery_charging_full, size: 50),
-              title: Text('80% - Idle'),
-              subtitle: Text('8 h 15 m remaining'),
-            ),
-          ),
-          SizedBox(height: 10),
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.flash_on, size: 50),
-              title: Text('Last charge was 7 h ago'),
+            color: Colors.white,
+            margin: EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: const TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: "80% - Idle",
+                          style: TextStyle(
+                            fontFamily: "Inter",
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "\n8h 15m remaining",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black54,
+                            fontFamily: "Inter",
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  CircularPercentIndicator(
+                    reverse: true,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    backgroundWidth: 15,
+                    backgroundColor: Colors.white,
+                    radius: 50.0,
+                    lineWidth: 10.0,
+                    percent: 0.8,
+                    center: Icon(
+                      Icons.electric_bolt_rounded,
+                      size: 40,
+                    ),
+                    progressColor: AppColors.primary,
+                  ),
+                  SizedBox(height: 5,),
+                  Text("Last charge was 7 hours ago", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),)
+                ],
+              ),
             ),
           ),
           SizedBox(height: 10),
@@ -123,6 +164,7 @@ class DashboardPage extends StatelessWidget {
 
   Widget _buildDashboardItem(String value, String label, IconData icon) {
     return Card(
+      color: Colors.white,
       margin: EdgeInsets.all(8.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -143,30 +185,3 @@ class DashboardPage extends StatelessWidget {
     );
   }
 }
-
-// class Tuning extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Text('Tuning Content'),
-//     );
-//   }
-// }
-
-// class Statistics extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Text('Statistics Content'),
-//     );
-//   }
-// }
-
-// class Menu extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Text('Menu Content'),
-//     );
-//   }
-// }

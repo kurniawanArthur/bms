@@ -84,8 +84,10 @@ class _BluetoothListState extends State<BluetoothList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:Color(0xFFF1F3F7),
       appBar: AppBar(
         title: Text('Pilih Perangkat'),
+        backgroundColor: Colors.white,
       ),
       body: Column(
         children: [
